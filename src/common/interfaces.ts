@@ -20,4 +20,12 @@ export interface ProcessedVideo {
   name: string;
   author: string;
   categories: string[];
+  highest_quality_format: string;
+  release_date: string;
+}
+
+export interface VideoFormValues {
+  name: string;
+  author: number;
+  categories: number[];
 }
