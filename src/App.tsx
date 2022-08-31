@@ -8,6 +8,7 @@ import { VideosTable } from './components/videos-table';
 import { VideoForm } from './components/video-form';
 import { Button } from './components/button';
 import styles from './app.module.css';
+import { SearchInput } from './components/search-input';
 
 export const App = () => {
   const [loading, setLoading] = useState<Boolean>(false);
@@ -15,6 +16,7 @@ export const App = () => {
   const [mode, setMode] = useState<MODE>(MODE.ADD);
   const [editData, setEditData] = useState<VideoFormValues | null>(null);
   const [showForm, setShowForm] = useState<Boolean>(false);
+  const [searchValue, setSearchValue] = useState<string>('');
 
   useEffect(() => {
     getAllVideos();
@@ -22,7 +24,7 @@ export const App = () => {
 
   const getAllVideos = async () => {
     setLoading(true);
-    await getVideos().then(setVideos);
+    await getVideos(searchValue).then(setVideos);
     setLoading(false);
   };
 
@@ -73,6 +75,10 @@ export const App = () => {
       getAllVideos();
     }
   };
+
+  const handleSearch = () => {
+    getAllVideos();
+  };
   return (
     <>
       <header className={styles.header}>
@@ -88,6 +94,7 @@ export const App = () => {
         {!showForm ? (
           <>
             <h1>VManager Demo v0.0.1</h1>
+            <SearchInput value={searchValue} onChange={setSearchValue} onSearch={handleSearch} />
             {loading ? <>Loading...</> : <VideosTable videos={videos} onEdit={handleEdit} onDelete={handleDelete} />}
           </>
         ) : (

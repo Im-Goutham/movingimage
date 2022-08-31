@@ -2,7 +2,7 @@ import { getCategories } from './categories';
 import { getAuthorByID, getAuthors, updateAuthor } from './authors';
 import { EditVideoPayload, ProcessedVideo, Video, VideoFormPayload, VideoFormValues } from '../common/interfaces';
 
-export const getVideos = async (): Promise<ProcessedVideo[]> => {
+export const getVideos = async (searchValue: string): Promise<ProcessedVideo[]> => {
   const [categories, authors] = await Promise.all([getCategories(), getAuthors()]);
 
   let categoriesSet: Record<string, string> = {};
@@ -17,15 +17,16 @@ export const getVideos = async (): Promise<ProcessedVideo[]> => {
       const categories: string[] = catIds.map((catId) => {
         return categoriesSet[catId];
       });
-
-      videos.push({
-        id,
-        name,
-        author: author.name,
-        categories,
-        highest_quality_format: 'best 1080p', // TODO
-        release_date: releaseDate,
-      });
+      if (name.toLowerCase().indexOf(searchValue.toLowerCase()) > -1) {
+        videos.push({
+          id,
+          name,
+          author: author.name,
+          categories,
+          highest_quality_format: 'best 1080p', // TODO
+          release_date: releaseDate,
+        });
+      }
     });
   });
 

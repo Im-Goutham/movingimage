@@ -1,0 +1,15 @@
+.container {
+  margin: 10px 0px;
+}
+
+.button {
+  background-color: var(--blue);
+  color: var(--white);
+  border: 1px solid var(--blue);
+  font-size: 20px;
+  padding: 2px 20px;
+}
+
+.input {
+  font-size: 20px;
+}
