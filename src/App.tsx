@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import type { ProcessedVideo, VideoFormValues } from './common/interfaces';
 import { MODE } from './common/enums';
-import { addVideo, editVideo, getVideoByID, getVideos } from './services/videos';
+import { addVideo, deleteVideo, editVideo, getVideoByID, getVideos } from './services/videos';
 import { VideosTable } from './components/videos-table';
 import { VideoForm } from './components/video-form';
 import { Button } from './components/button';
@@ -63,7 +63,10 @@ export const App = () => {
     setShowForm(true);
   };
 
-  const handleDelete = () => {};
+  const handleDelete = async (id: number) => {
+    await deleteVideo(id);
+    getAllVideos();
+  };
   return (
     <>
       <header className={styles.header}>

@@ -1,4 +1,5 @@
 import type { ProcessedVideo } from '../common/interfaces';
+import { Button } from './button';
 import styles from './videos-table.module.css';
 
 type VideosTableProps = {
@@ -30,8 +31,8 @@ export const VideosTable = ({ videos, onEdit, onDelete }: VideosTableProps) => (
             <td>{highest_quality_format}</td>
             <td>{release_date}</td>
             <td>
-              <button onClick={() => onEdit(id)}>Edit</button>
-              <button onClick={() => onDelete(id)}>Delete</button>
+              <Button primary onClick={() => onEdit(id)}>Edit</Button>
+              <Button danger onClick={() => onDelete(id)}>Delete</Button>
             </td>
           </tr>
         ))}

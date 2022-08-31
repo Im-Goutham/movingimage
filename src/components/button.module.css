@@ -5,9 +5,15 @@
   cursor: pointer;
   color: var(--dark-gray);
   font-weight: 700;
+  margin-right: 10px;
 }
 
 .primary {
   background: var(--green);
+  color: var(--white);
+}
+
+.danger {
+  background: var(--red);
   color: var(--white);
 }

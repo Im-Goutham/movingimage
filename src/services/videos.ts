@@ -56,3 +56,14 @@ export const editVideo = async (payload: VideoFormPayload): Promise<string> => {
   // TODO
   return '';
 };
+
+export const deleteVideo = async (videoId: number): Promise<string> => {
+  const video = await getVideoByID(videoId);
+  if (video) {
+    const authorData = await getAuthorByID(video.author);
+    const updateVideos = authorData.videos.filter(({ id }) => id !== videoId);
+    authorData.videos = [...updateVideos];
+    await updateAuthor(authorData);
+  }
+  return 'Deleted successfully';
+};
