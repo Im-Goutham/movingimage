@@ -8,6 +8,7 @@
   border: 1px solid var(--blue);
   font-size: 20px;
   padding: 2px 20px;
+  cursor: pointer;
 }
 
 .input {

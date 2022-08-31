@@ -1,0 +1,26 @@
+.formContainer {
+  width: 600px;
+}
+
+.formGroup {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 0px;
+}
+
+.error {
+  color: var(--red);
+  display: block;
+  width: 100%;
+}
+
+.input,
+.select,
+label {
+  font-size: 20px;
+  width: 50%;
+}
+
+.formFooter {
+  margin: 20px 0px;
+}
