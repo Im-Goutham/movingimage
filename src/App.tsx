@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 
 import type { ProcessedVideo, VideoFormValues } from './common/interfaces';
+import { getCurrentDate } from './common/utils';
 import { MODE } from './common/enums';
 import { addVideo, deleteVideo, editVideo, getVideoByID, getVideos } from './services/videos';
 import { VideosTable } from './components/videos-table';
 import { VideoForm } from './components/video-form';
 import { Button } from './components/button';
 import styles from './app.module.css';
-import { getCurrentDate } from './common/utils';
 
 export const App = () => {
   const [videos, setVideos] = useState<ProcessedVideo[]>([]);
@@ -39,14 +39,14 @@ export const App = () => {
       };
       await addVideo(payload);
       getAllVideos();
-    } else if (mode === MODE.EDIT) {
+    } else if (mode === MODE.EDIT && id) {
       const payload = {
         id,
         name,
         author,
         catIds: categories,
       };
-      //  editVideo(payload);
+      editVideo(payload);
     }
     setShowForm(false);
   };

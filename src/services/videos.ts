@@ -1,6 +1,6 @@
 import { getCategories } from './categories';
 import { getAuthorByID, getAuthors, updateAuthor } from './authors';
-import { ProcessedVideo, VideoFormPayload, VideoFormValues } from '../common/interfaces';
+import { EditVideoPayload, ProcessedVideo, Video, VideoFormPayload, VideoFormValues } from '../common/interfaces';
 
 export const getVideos = async (): Promise<ProcessedVideo[]> => {
   const [categories, authors] = await Promise.all([getCategories(), getAuthors()]);
@@ -49,12 +49,38 @@ export const addVideo = async (payload: VideoFormPayload): Promise<string> => {
   const authorData = await getAuthorByID(payload.author);
   authorData.videos.push(payload);
   await updateAuthor(authorData);
-  return 'Video is successfully added';
+  return 'Added successfully';
 };
 
-export const editVideo = async (payload: VideoFormPayload): Promise<string> => {
-  // TODO
-  return '';
+export const editVideo = async (payload: EditVideoPayload): Promise<string> => {
+  const authors = await getAuthors();
+  let video: Video | null = null;
+  let updatedVideo: Video | null = null;
+  authors.forEach((author) => {
+    author.videos.forEach((data) => {
+      if (payload.id == data.id) {
+        video = { ...data };
+        updatedVideo = {
+          id: Date.now(),
+          catIds: payload.catIds,
+          name: payload.name,
+          formats: video.formats,
+          releaseDate: video.releaseDate,
+        };
+      }
+    });
+  });
+
+  // Remove from old author first
+  deleteVideo(payload.id);
+  // Update video data with new Author or same author
+  if (updatedVideo != null) {
+    const addPayload: VideoFormPayload = Object.assign({}, updatedVideo);
+    addPayload.author = payload.author;
+    await addVideo(updatedVideo);
+  }
+
+  return 'Edited successfully';
 };
 
 export const deleteVideo = async (videoId: number): Promise<string> => {

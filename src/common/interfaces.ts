@@ -7,6 +7,7 @@ export interface Video {
   id: number;
   catIds: number[];
   name: string;
+  formats: Record<string, unknown>[];
   releaseDate: string;
 }
 
@@ -39,4 +40,11 @@ export interface VideoFormPayload {
   catIds: number[];
   formats: Record<string, unknown>[];
   releaseDate: string;
+}
+
+export interface EditVideoPayload {
+  id: number;
+  name: string;
+  author: number;
+  catIds: number[];
 }
