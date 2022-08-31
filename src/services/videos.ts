@@ -1,6 +1,6 @@
 import { getCategories } from './categories';
-import { getAuthors } from './authors';
-import { ProcessedVideo, VideoFormValues } from '../common/interfaces';
+import { getAuthorByID, getAuthors, updateAuthor } from './authors';
+import { ProcessedVideo, VideoFormPayload, VideoFormValues } from '../common/interfaces';
 
 export const getVideos = async (): Promise<ProcessedVideo[]> => {
   const [categories, authors] = await Promise.all([getCategories(), getAuthors()]);
@@ -18,16 +18,14 @@ export const getVideos = async (): Promise<ProcessedVideo[]> => {
         return categoriesSet[catId];
       });
 
-      const video: ProcessedVideo = {
+      videos.push({
         id,
         name,
         author: author.name,
         categories,
         highest_quality_format: 'best 1080p', // TODO
         release_date: releaseDate,
-      };
-
-      videos.push(video);
+      });
     });
   });
 
@@ -45,4 +43,16 @@ export const getVideoByID = async (videoId: number): Promise<VideoFormValues | n
     });
   });
   return video;
+};
+
+export const addVideo = async (payload: VideoFormPayload): Promise<string> => {
+  const authorData = await getAuthorByID(payload.author);
+  authorData.videos.push(payload);
+  await updateAuthor(authorData);
+  return 'Video is successfully added';
+};
+
+export const editVideo = async (payload: VideoFormPayload): Promise<string> => {
+  // TODO
+  return '';
 };

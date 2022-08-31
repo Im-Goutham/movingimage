@@ -9,13 +9,13 @@ import { Button } from './button';
 type VideoFormProps = {
   mode: MODE;
   editData?: VideoFormValues | null;
-  onSubmit: (values: VideoFormValues) => void;
+  onSubmit: (mode: MODE, values: VideoFormValues) => void;
   onCancel: () => void;
 };
 
-const initialValues = { id: -1, name: '', author: -1, categories: [] };
+const initialValues = { name: '', author: -1, categories: [] };
 
-export const VideoForm = ({ editData = initialValues, onSubmit, onCancel }: VideoFormProps) => {
+export const VideoForm = ({ mode, editData = initialValues, onSubmit, onCancel }: VideoFormProps) => {
   const [authors, setAuthors] = useState<Author[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
 
@@ -43,7 +43,7 @@ export const VideoForm = ({ editData = initialValues, onSubmit, onCancel }: Vide
       }}
       onSubmit={(values, { setSubmitting }) => {
         setSubmitting(false);
-        onSubmit(values);
+        onSubmit(mode, values);
       }}>
       {({ values, errors, touched, handleChange, handleSubmit, isSubmitting }) => {
         return (

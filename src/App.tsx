@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 
 import type { ProcessedVideo, VideoFormValues } from './common/interfaces';
 import { MODE } from './common/enums';
-import { getVideoByID, getVideos } from './services/videos';
+import { addVideo, editVideo, getVideoByID, getVideos } from './services/videos';
 import { VideosTable } from './components/videos-table';
 import { VideoForm } from './components/video-form';
 import { Button } from './components/button';
 import styles from './app.module.css';
+import { getCurrentDate } from './common/utils';
 
 export const App = () => {
   const [videos, setVideos] = useState<ProcessedVideo[]>([]);
@@ -15,10 +16,40 @@ export const App = () => {
   const [showForm, setShowForm] = useState<Boolean>(false);
 
   useEffect(() => {
-    getVideos().then(setVideos);
+    getAllVideos();
   }, []);
 
-  const handleSubmit = () => {};
+  const getAllVideos = () => {
+    getVideos().then(setVideos);
+  };
+
+  const handleSubmit = async (mode: MODE, { id, name, author, categories }: VideoFormValues) => {
+    if (mode === MODE.ADD) {
+      const payload = {
+        id: Date.now(),
+        name,
+        author,
+        catIds: categories,
+        formats: [
+          {
+            one: { res: '1080p', size: 1000 },
+          },
+        ],
+        releaseDate: getCurrentDate(),
+      };
+      await addVideo(payload);
+      getAllVideos();
+    } else if (mode === MODE.EDIT) {
+      const payload = {
+        id,
+        name,
+        author,
+        catIds: categories,
+      };
+      //  editVideo(payload);
+    }
+    setShowForm(false);
+  };
 
   const handleAdd = () => {
     setMode(MODE.ADD);

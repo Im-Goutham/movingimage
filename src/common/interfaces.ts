@@ -26,8 +26,17 @@ export interface ProcessedVideo {
 }
 
 export interface VideoFormValues {
-  id: number;
+  id?: number;
   name: string;
   author: number;
   categories: number[];
+}
+
+export interface VideoFormPayload {
+  id: number;
+  name: string;
+  author: number;
+  catIds: number[];
+  formats: Record<string, unknown>[];
+  releaseDate: string;
 }
