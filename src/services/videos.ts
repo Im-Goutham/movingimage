@@ -1,6 +1,7 @@
 import { getCategories } from './categories';
 import { getAuthorByID, getAuthors, updateAuthor } from './authors';
 import { EditVideoPayload, ProcessedVideo, Video, VideoFormPayload, VideoFormValues } from '../common/interfaces';
+import { getHighestQuality } from '../common/utils';
 
 export const getVideos = async (searchValue: string): Promise<ProcessedVideo[]> => {
   const [categories, authors] = await Promise.all([getCategories(), getAuthors()]);
@@ -13,7 +14,7 @@ export const getVideos = async (searchValue: string): Promise<ProcessedVideo[]> 
 
   const videos: ProcessedVideo[] = [];
   authors.forEach((author) => {
-    author.videos.forEach(({ id, name, catIds, releaseDate }) => {
+    author.videos.forEach(({ id, name, catIds, releaseDate, formats }) => {
       const categories: string[] = catIds.map((catId) => {
         return categoriesSet[catId];
       });
@@ -23,7 +24,7 @@ export const getVideos = async (searchValue: string): Promise<ProcessedVideo[]> 
           name,
           author: author.name,
           categories,
-          highest_quality_format: 'best 1080p', // TODO
+          highest_quality_format: getHighestQuality(formats),
           release_date: releaseDate,
         });
       }

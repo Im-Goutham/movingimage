@@ -35,11 +35,9 @@ export const App = () => {
         name,
         author,
         catIds: categories,
-        formats: [
-          {
-            one: { res: '1080p', size: 1000 },
-          },
-        ],
+        formats: {
+          one: { res: '1080p', size: 1000 },
+        },
         releaseDate: getCurrentDate(),
       };
       await addVideo(payload);
