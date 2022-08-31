@@ -68,8 +68,10 @@ export const App = () => {
   };
 
   const handleDelete = async (id: number) => {
-    await deleteVideo(id);
-    getAllVideos();
+    if (window.confirm('Are you sure, you want to delete?')) {
+      await deleteVideo(id);
+      getAllVideos();
+    }
   };
   return (
     <>

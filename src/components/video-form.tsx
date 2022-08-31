@@ -81,7 +81,7 @@ export const VideoForm = ({ mode, editData = initialValues, onSubmit, onCancel }
             </Field>
             {errors.categories && touched.categories && errors.categories}
             <Button primary type="submit" disabled={isSubmitting}>
-              Submit
+              {mode == MODE.ADD ? 'Save' : 'Update'}
             </Button>
             <Button type="button" onClick={onCancel}>
               Cancel
