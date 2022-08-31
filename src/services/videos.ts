@@ -70,16 +70,14 @@ export const editVideo = async (payload: EditVideoPayload): Promise<string> => {
       }
     });
   });
-
-  // Remove from old author first
-  deleteVideo(payload.id);
-  // Update video data with new Author or same author
+  // // Remove from old author first
+  await deleteVideo(payload.id);
+  // // Update video data with new Author or same author
   if (updatedVideo != null) {
     const addPayload: VideoFormPayload = Object.assign({}, updatedVideo);
     addPayload.author = payload.author;
-    await addVideo(updatedVideo);
+    await addVideo(addPayload);
   }
-
   return 'Edited successfully';
 };
 

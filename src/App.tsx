@@ -10,6 +10,7 @@ import { Button } from './components/button';
 import styles from './app.module.css';
 
 export const App = () => {
+  const [loading, setLoading] = useState<Boolean>(false);
   const [videos, setVideos] = useState<ProcessedVideo[]>([]);
   const [mode, setMode] = useState<MODE>(MODE.ADD);
   const [editData, setEditData] = useState<VideoFormValues | null>(null);
@@ -19,8 +20,10 @@ export const App = () => {
     getAllVideos();
   }, []);
 
-  const getAllVideos = () => {
-    getVideos().then(setVideos);
+  const getAllVideos = async () => {
+    setLoading(true);
+    await getVideos().then(setVideos);
+    setLoading(false);
   };
 
   const handleSubmit = async (mode: MODE, { id, name, author, categories }: VideoFormValues) => {
@@ -46,7 +49,8 @@ export const App = () => {
         author,
         catIds: categories,
       };
-      editVideo(payload);
+      await editVideo(payload);
+      getAllVideos();
     }
     setShowForm(false);
   };
@@ -82,7 +86,7 @@ export const App = () => {
         {!showForm ? (
           <>
             <h1>VManager Demo v0.0.1</h1>
-            <VideosTable videos={videos} onEdit={handleEdit} onDelete={handleDelete} />
+            {loading ? <>Loading...</> : <VideosTable videos={videos} onEdit={handleEdit} onDelete={handleDelete} />}
           </>
         ) : (
           <VideoForm mode={mode} editData={editData} onSubmit={handleSubmit} onCancel={() => setShowForm(false)} />

@@ -28,26 +28,22 @@
       "name": "Li Sun Chi",
       "videos": [
         {
-          "id": 3,
+          "id": 1661949087817,
           "catIds": [
-            4
+            "3",
+            "4"
           ],
-          "name": "Fun",
-          "formats": {
-            "one": {
-              "res": "720p",
-              "size": 730
-            },
-            "two": {
-              "res": "720p",
-              "size": 4500
-            },
-            "three": {
-              "res": "720p",
-              "size": 2005
+          "name": "New video soon",
+          "formats": [
+            {
+              "one": {
+                "res": "1080p",
+                "size": 1000
+              }
             }
-          },
-          "releaseDate": "2018-08-10"
+          ],
+          "releaseDate": "2022-8-31",
+          "author": 2
         }
       ]
     },
@@ -56,19 +52,58 @@
       "name": "Steven Scorsese",
       "videos": [
         {
-          "id": 6,
+          "id": 1661949129652,
           "catIds": [
-            2,
-            4
+            "2"
           ],
-          "name": "Torrance",
-          "formats": {
-            "one": {
-              "res": "720p",
-              "size": 4500
+          "name": "Video 3 edited",
+          "formats": [
+            {
+              "one": {
+                "res": "1080p",
+                "size": 1000
+              }
             }
-          },
-          "releaseDate": "2018-08-10"
+          ],
+          "releaseDate": "2022-8-31",
+          "author": 3
+        },
+        {
+          "id": 1661949348537,
+          "catIds": [
+            "4"
+          ],
+          "name": "Video 1",
+          "formats": [
+            {
+              "one": {
+                "res": "1080p",
+                "size": 1000
+              }
+            }
+          ],
+          "releaseDate": "2022-8-31",
+          "author": "3"
+        },
+        {
+          "id": 1661949393527,
+          "catIds": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "name": "New 24455",
+          "formats": [
+            {
+              "one": {
+                "res": "1080p",
+                "size": 1000
+              }
+            }
+          ],
+          "releaseDate": "2022-8-31",
+          "author": 3
         }
       ]
     }
