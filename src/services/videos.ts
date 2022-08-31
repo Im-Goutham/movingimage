@@ -34,13 +34,15 @@ export const getVideos = async (): Promise<ProcessedVideo[]> => {
   return videos;
 };
 
-export const getVideoByID = async (id: number): Promise<VideoFormValues> => {
-  const [categories, authors] = await Promise.all([getCategories(), getAuthors()]);
-  let video = {
-    id: 1,
-    name: 'video 1',
-    author: 2,
-    categories: [2, 1],
-  };
-  return video; // TODO: implement
+export const getVideoByID = async (videoId: number): Promise<VideoFormValues | null> => {
+  const authors = await getAuthors();
+  let video: VideoFormValues | null = null;
+  authors.forEach((author) => {
+    author.videos.forEach(({ id, name, catIds }) => {
+      if (videoId == id) {
+        video = { id, name, author: author.id, categories: catIds };
+      }
+    });
+  });
+  return video;
 };
