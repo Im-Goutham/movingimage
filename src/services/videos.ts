@@ -4,25 +4,34 @@ import { ProcessedVideo, VideoFormValues } from '../common/interfaces';
 
 export const getVideos = async (): Promise<ProcessedVideo[]> => {
   const [categories, authors] = await Promise.all([getCategories(), getAuthors()]);
-  let videos = [
-    {
-      id: 1,
-      name: 'video 1',
-      author: 'author 1',
-      categories: ['Comedy', 'Romance'],
-      highest_quality_format: 'best 1080p',
-      release_date: '12-09-2022',
-    },
-    {
-      id: 12,
-      name: 'video 2',
-      author: 'author 2',
-      categories: ['Comedy', 'Romance'],
-      highest_quality_format: 'best 1080p',
-      release_date: '12-09-2022',
-    },
-  ];
-  return videos; // TODO: implement
+
+  let categoriesSet: Record<string, string> = {};
+
+  categories.forEach(({ id, name }) => {
+    categoriesSet[id] = name;
+  });
+
+  const videos: ProcessedVideo[] = [];
+  authors.forEach((author) => {
+    author.videos.forEach(({ id, name, catIds, releaseDate }) => {
+      const categories: string[] = catIds.map((catId) => {
+        return categoriesSet[catId];
+      });
+
+      const video: ProcessedVideo = {
+        id,
+        name,
+        author: author.name,
+        categories,
+        highest_quality_format: 'best 1080p', // TODO
+        release_date: releaseDate,
+      };
+
+      videos.push(video);
+    });
+  });
+
+  return videos;
 };
 
 export const getVideoByID = async (id: number): Promise<VideoFormValues> => {
