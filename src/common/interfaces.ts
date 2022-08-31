@@ -25,6 +25,7 @@ export interface ProcessedVideo {
 }
 
 export interface VideoFormValues {
+  id: number;
   name: string;
   author: number;
   categories: number[];

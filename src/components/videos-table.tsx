@@ -1,10 +1,10 @@
-import type { ProcessedVideo, VideoFormValues } from '../common/interfaces';
+import type { ProcessedVideo } from '../common/interfaces';
 import styles from './videos-table.module.css';
 
 type VideosTableProps = {
   videos: ProcessedVideo[];
-  onEdit: (values: VideoFormValues) => void;
-  onDelete: (id: string) => void;
+  onEdit: (id: number) => void;
+  onDelete: (id: number) => void;
 };
 
 export const VideosTable = ({ videos, onEdit, onDelete }: VideosTableProps) => (
@@ -30,8 +30,8 @@ export const VideosTable = ({ videos, onEdit, onDelete }: VideosTableProps) => (
             <td>{highest_quality_format}</td>
             <td>{release_date}</td>
             <td>
-              <button>Edit</button>
-              <button>Delete</button>
+              <button onClick={() => onEdit(id)}>Edit</button>
+              <button onClick={() => onDelete(id)}>Delete</button>
             </td>
           </tr>
         ))}

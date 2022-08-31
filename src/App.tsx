@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import type { ProcessedVideo, VideoFormValues } from './common/interfaces';
 import { MODE } from './common/enums';
-import { getVideos } from './services/videos';
+import { getVideoByID, getVideos } from './services/videos';
 import { VideosTable } from './components/videos-table';
 import { VideoForm } from './components/video-form';
 import { Button } from './components/button';
@@ -12,7 +12,6 @@ export const App = () => {
   const [videos, setVideos] = useState<ProcessedVideo[]>([]);
   const [mode, setMode] = useState<MODE>(MODE.ADD);
   const [editData, setEditData] = useState<VideoFormValues | null>(null);
-
   const [showForm, setShowForm] = useState<Boolean>(false);
 
   useEffect(() => {
@@ -27,9 +26,9 @@ export const App = () => {
     setShowForm(true);
   };
 
-  const handleEdit = (values: VideoFormValues) => {
+  const handleEdit = async (id: number) => {
     setMode(MODE.EDIT);
-    setEditData(values);
+    await getVideoByID(id).then(setEditData);
     setShowForm(true);
   };
 
@@ -38,9 +37,11 @@ export const App = () => {
     <>
       <header className={styles.header}>
         Videos
-        <Button primary onClick={handleAdd}>
-          Add video
-        </Button>
+        {!showForm && (
+          <Button primary onClick={handleAdd}>
+            Add video
+          </Button>
+        )}
       </header>
 
       <main className={styles.main}>
