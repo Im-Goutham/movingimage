@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
-
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import type { ProcessedVideo, VideoFormValues } from './common/interfaces';
 import { getCurrentDate } from './common/utils';
-import { MODE } from './common/enums';
+import { MODE, SORT_DIR, SORT_TYPE } from './common/enums';
 import { addVideo, deleteVideo, editVideo, getVideoByID, getVideos } from './services/videos';
 import { VideosTable } from './components/videos-table';
 import { VideoForm } from './components/video-form';
 import { Button } from './components/button';
 import styles from './app.module.css';
 import { SearchInput } from './components/search-input';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const App = () => {
   const [loading, setLoading] = useState<Boolean>(false);
@@ -17,14 +18,20 @@ export const App = () => {
   const [editData, setEditData] = useState<VideoFormValues | null>(null);
   const [showForm, setShowForm] = useState<Boolean>(false);
   const [searchValue, setSearchValue] = useState<string>('');
+  const [sortType, setSortType] = useState<SORT_TYPE>(SORT_TYPE.NAME);
+  const [sortDir, setSortDir] = useState<SORT_DIR>(SORT_DIR.ASC);
 
   useEffect(() => {
     getAllVideos();
   }, []);
 
+  useEffect(() => {
+    getAllVideos();
+  }, [sortDir, sortType]);
+
   const getAllVideos = async () => {
     setLoading(true);
-    await getVideos(searchValue).then(setVideos);
+    await getVideos({ searchValue, sortType, sortDir }).then(setVideos);
     setLoading(false);
   };
 
@@ -77,6 +84,12 @@ export const App = () => {
   const handleSearch = () => {
     getAllVideos();
   };
+
+  const handleSortChange = (type: SORT_TYPE, dir: SORT_DIR) => {
+    setSortType(type);
+    setSortDir(dir);
+  };
+
   return (
     <>
       <header className={styles.header}>
@@ -93,7 +106,20 @@ export const App = () => {
           <>
             <h1>VManager Demo v0.0.1</h1>
             <SearchInput value={searchValue} onChange={setSearchValue} onSearch={handleSearch} />
-            {loading ? <>Loading...</> : <VideosTable videos={videos} onEdit={handleEdit} onDelete={handleDelete} />}
+            {loading ? (
+              <>
+                Loading  <FontAwesomeIcon className={styles.icon} icon={faSpinner} />
+              </>
+            ) : (
+              <VideosTable
+                videos={videos}
+                selectedSortType={sortType}
+                selectedSortDir={sortDir}
+                onSortChange={handleSortChange}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+              />
+            )}
           </>
         ) : (
           <VideoForm mode={mode} editData={editData} onSubmit={handleSubmit} onCancel={() => setShowForm(false)} />

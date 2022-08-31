@@ -1,3 +1,5 @@
+import { SORT_DIR, SORT_TYPE } from './enums';
+
 export interface Category {
   id: number;
   name: string;
@@ -47,4 +49,10 @@ export interface EditVideoPayload {
   name: string;
   author: number;
   catIds: number[];
+}
+
+export interface VideoParams {
+  searchValue: string;
+  sortType: SORT_TYPE;
+  sortDir: SORT_DIR;
 }

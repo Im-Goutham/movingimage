@@ -9,6 +9,7 @@ import { Button } from './button';
 type VideoFormProps = {
   mode: MODE;
   editData?: VideoFormValues | null;
+
   onSubmit: (mode: MODE, values: VideoFormValues) => void;
   onCancel: () => void;
 };

@@ -1,9 +1,9 @@
 import { getCategories } from './categories';
 import { getAuthorByID, getAuthors, updateAuthor } from './authors';
-import { EditVideoPayload, ProcessedVideo, Video, VideoFormPayload, VideoFormValues } from '../common/interfaces';
-import { getHighestQuality } from '../common/utils';
+import { EditVideoPayload, ProcessedVideo, Video, VideoFormPayload, VideoFormValues, VideoParams } from '../common/interfaces';
+import { getHighestQuality, sortByKey } from '../common/utils';
 
-export const getVideos = async (searchValue: string): Promise<ProcessedVideo[]> => {
+export const getVideos = async ({ searchValue, sortType, sortDir }: VideoParams): Promise<ProcessedVideo[]> => {
   const [categories, authors] = await Promise.all([getCategories(), getAuthors()]);
 
   let categoriesSet: Record<string, string> = {};
@@ -31,7 +31,7 @@ export const getVideos = async (searchValue: string): Promise<ProcessedVideo[]> 
     });
   });
 
-  return videos;
+  return sortByKey(videos, sortType, sortDir);
 };
 
 export const getVideoByID = async (videoId: number): Promise<VideoFormValues | null> => {

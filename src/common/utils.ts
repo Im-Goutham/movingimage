@@ -1,3 +1,5 @@
+import { SORT_DIR } from './enums';
+
 export const getCurrentDate = () => {
   const today = new Date();
   const yyyy = today.getFullYear();
@@ -48,4 +50,18 @@ const findMax = (format1: Record<string, unknown>, format2: Record<string, unkno
 
 const getResolution = (res: string) => {
   return parseInt(res.replace('p', ''));
+};
+
+export const sortByKey = <Type>(array: Type, key: string, dir: SORT_DIR): Type => {
+  if (Array.isArray(array)) {
+    return array.sort((a: any, b: any) => {
+      var x = a[key];
+      var y = b[key];
+      if (dir === SORT_DIR.ASC) {
+        return x < y ? -1 : x > y ? 1 : 0;
+      }
+      return x < y ? 1 : x > y ? -1 : 0;
+    });
+  }
+  return array;
 };

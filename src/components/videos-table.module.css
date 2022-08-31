@@ -13,3 +13,11 @@
   border: 1px solid;
   text-align: left;
 }
+
+.icon {
+  margin-left: 10px;
+  cursor: pointer;
+}
+.icon:hover {
+  color: var(--blue);
+}
